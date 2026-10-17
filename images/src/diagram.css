@@ -1,0 +1,10 @@
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,"Noto Color Emoji",sans-serif;color:#0f172a}
+#shot{display:inline-block;background:#fff;padding:36px 40px;border:1px solid #e2e8f0}
+h2{font-size:22px;margin-bottom:4px}.sub{color:#64748b;font-size:14px;margin-bottom:26px}
+.row{display:flex;align-items:center;gap:14px}
+.box{flex:1;border-radius:14px;padding:14px 16px;border:2px solid;min-width:150px;font-size:13.5px;line-height:1.4;background:#fff}
+.box b{display:block;font-size:15px;margin-bottom:3px}
+.blue{border-color:#93c5fd;background:#eff6ff}.green{border-color:#86efac;background:#f0fdf4}.amber{border-color:#fcd34d;background:#fffbeb}.red{border-color:#fca5a5;background:#fef2f2}.gray{border-color:#cbd5e1;background:#f8fafc}.violet{border-color:#c4b5fd;background:#f5f3ff}
+.arr{font-size:22px;color:#94a3b8}
+.lbl{font-size:12px;color:#64748b;text-align:center}

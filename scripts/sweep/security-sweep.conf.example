@@ -1,0 +1,36 @@
+# /etc/security-sweep.conf: sourced by security-sweep.sh (bash syntax)
+
+# Ports that are SUPPOSED to be public (anything else listening on a public address = drift)
+ALLOW_TCP="22 80 443"
+ALLOW_UDP="443 68 546"
+
+# Firewall chains that must exist (from scripts/firewall/firewall.sh). Empty = skip check.
+FW_CHAIN_V4="AGENTOPS-IN"
+FW_CHAIN_V6="AGENTOPS-IN6"
+
+# fail2ban jails that must be loaded
+F2B_JAILS="sshd"
+
+# Web roots to sweep (space separated globs)
+WEB_ROOTS="/var/www /home/*/public_html"
+
+# URL that must NOT serve a .bak file (proves the block rule is live). Empty = skip.
+BAK_PROBE_URL="https://example.com/index.php.bak-sweep-probe"
+
+# Failed-login alert: alert if today's count is more than FACTOR x the 7-day median
+FAILED_LOGIN_FACTOR=4
+
+# Known deploy paths whose PHP may change daily without alerting (regex). Empty = none.
+PHP_CHANGE_IGNORE='/var/www/[^/]+/(wp-content/cache|wp-content/wflogs)/'
+
+# WordPress installs to check for new administrators (needs wp-cli). Empty = skip.
+WP_SITES="/var/www/site1 /var/www/site2"
+WP_CLI_USER="www-data"
+
+# How to alert. Gets the message on stdin. Keep it OWNER-ONLY.
+# Telegram example (token + chat id in a 600 file, never inline):
+#   ALERT_CMD='/usr/local/bin/tg-notify'
+ALERT_CMD='logger -t security-sweep'
+
+# Remind about still-open drift every N days (0 = never)
+REMIND_DAYS=7

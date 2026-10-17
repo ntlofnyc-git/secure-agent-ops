@@ -1,0 +1,15 @@
+# Caddyfile: define once at the top, then `import blockjunk` in EVERY site block.
+# New site block without the import = unprotected site. The daily sweep's BAK_PROBE_URL catches that.
+(blockjunk) {
+	@junk {
+		path_regexp junk (?i)(\.(bak[^/]*|orig|old|save|swp|sql|sql\.gz|dump|tar|tar\.gz|tgz|log|ini|conf)$|~$|/\.env[^/]*$|/\.git(/|$)|/\.ht[^/]*$|/wp-config\.php\..+$|/composer\.(json|lock)$)
+	}
+	respond @junk 404
+}
+
+example.com {
+	import blockjunk
+	root * /var/www/example.com
+	php_fastcgi unix//run/php/php8.3-fpm.sock
+	file_server
+}

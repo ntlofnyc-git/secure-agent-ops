@@ -1,0 +1,4 @@
+*.retired-*
+*.prev-*
+__pycache__/
+images/src/*.tmp.html

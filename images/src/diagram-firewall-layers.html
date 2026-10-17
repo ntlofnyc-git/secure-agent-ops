@@ -1,0 +1,11 @@
+<link rel=stylesheet href=diagram.css><div id=shot style="width:900px">
+<h2>Layers in front of a public box</h2><div class=sub>Each layer assumes the one outside it will fail sometimes.</div>
+<div style="border:2px dashed #cbd5e1;border-radius:22px;padding:18px">
+ <div class=lbl style="text-align:left;margin-bottom:8px">🌍 Internet: scanners, password guessers, curious visitors</div>
+ <div class="box red" style="padding:16px"><b>1 · Host firewall: default drop (IPv4 + IPv6)</b>Open: 22, 80, 443 (+ mail ports on a mail host). Allowed: ICMP/ICMPv6, VPN interface. Panel ports from admin IPs only. Applied with a 5-minute dead-man undo.
+  <div class="box amber" style="margin-top:12px;padding:16px"><b>2 · fail2ban on every login door</b>sshd (journalmatch ssh.service!) · SMTP AUTH · IMAP/POP · panel · wp-login/xmlrpc/lost-password. Incremental bans up to 1 week.
+   <div class="box blue" style="margin-top:12px;padding:16px"><b>3 · Services</b>Keys-only SSH · panels with 2FA · web server refuses .bak/.sql/.env/.git · unused services off · internals bound to 127.0.0.1 or VPN
+    <div class="box green" style="margin-top:12px;padding:16px"><b>4 · Data &amp; secrets</b>One 600 file per secret · /root 700 · nothing in web roots or /tmp · transcripts scrubbed</div>
+   </div></div></div>
+ <div class="box gray" style="margin-top:12px"><b>👁️ Daily sweep watches all four layers</b>Messages the owner only when something changed.</div>
+</div></div>

@@ -1,0 +1,11 @@
+# /etc/fail2ban/jail.d/wordpress.local: needs filter.d/wordpress-login.conf
+# Point logpath at ALL vhost access logs on the box.
+[wordpress]
+enabled  = true
+port     = http,https
+filter   = wordpress-login
+logpath  = /var/log/apache2/*access*.log
+           /var/www/*/logs/access_log
+maxretry = 10
+findtime = 5m
+bantime  = 6h

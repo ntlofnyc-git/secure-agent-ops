@@ -1,0 +1,17 @@
+# /etc/fail2ban/jail.d/mail.local: SMTP AUTH + IMAP/POP brute force (Postfix + Dovecot)
+# Check your log path (/var/log/mail.log) or switch to backend=systemd if mail logs to journald.
+[postfix-sasl]
+enabled  = true
+port     = smtp,465,submission
+logpath  = /var/log/mail.log
+maxretry = 5
+findtime = 10m
+bantime  = 1h
+
+[dovecot]
+enabled  = true
+port     = pop3,pop3s,imap,imaps,submission,465,sieve
+logpath  = /var/log/mail.log
+maxretry = 5
+findtime = 10m
+bantime  = 1h

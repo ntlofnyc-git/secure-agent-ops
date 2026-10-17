@@ -1,0 +1,10 @@
+# /etc/fail2ban/jail.d/webmin.local
+# Better: don't expose the panel at all (firewall ADMIN_ONLY_TCP) and turn on 2FA.
+# This jail is the backstop.
+[webmin-auth]
+enabled  = true
+port     = 10000
+logpath  = /var/log/auth.log
+maxretry = 3
+findtime = 10m
+bantime  = 6h

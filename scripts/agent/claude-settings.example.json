@@ -1,0 +1,26 @@
+{
+  "_comment": "Merge into ~/.claude/settings.json (or the project's .claude/settings.json). The hook runs before EVERY Bash tool call; exit 2 blocks it.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "command": "/home/agents/.local/bin/gate-guard.sh", "timeout": 10 }
+        ]
+      },
+      {
+        "matcher": "Read|Edit|Write|Bash",
+        "hooks": [
+          { "type": "command", "command": "/home/agents/.local/bin/private-path-guard.sh", "timeout": 10 }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "deny": [
+      "Read(/root/**)",
+      "Read(/home/agents/.secrets/**)",
+      "Bash(gated-dispatch:*)"
+    ]
+  }
+}

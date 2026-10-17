@@ -1,0 +1,38 @@
+# ~/.ssh/config: one alias per box, one key per role. Nobody types raw IPs.
+# IdentitiesOnly yes = offer ONLY this key (otherwise ssh tries every key you hold,
+# which trips fail2ban on your own servers and reveals which keys you carry).
+
+Host *
+    ServerAliveInterval 30
+    ServerAliveCountMax 4
+    HashKnownHosts yes
+
+# Control box (where the agents live)
+Host control
+    HostName 192.0.2.10
+    User alice
+    IdentityFile ~/.ssh/id_ed25519_alice
+    IdentitiesOnly yes
+
+# Shared web + mail host
+Host web1
+    HostName 198.51.100.10
+    User deploy
+    IdentityFile ~/.ssh/id_ed25519_builder
+    IdentitiesOnly yes
+
+# Customer-facing boxes get their own key, so a leak there doesn't open the control box
+Host client-*
+    User root
+    IdentityFile ~/.ssh/id_ed25519_clientbox
+    IdentitiesOnly yes
+Host client-acme
+    HostName 203.0.113.20
+
+# Reach a box that only accepts SSH from web1
+Host legacy
+    HostName 203.0.113.30
+    User root
+    ProxyJump web1
+    IdentityFile ~/.ssh/id_ed25519_clientbox
+    IdentitiesOnly yes

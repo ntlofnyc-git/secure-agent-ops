@@ -1,0 +1,20 @@
+# /etc/fail2ban/jail.d/sshd.local
+# Ubuntu 24.04: the daemon is ssh.service, NOT sshd.service. The stock systemd journalmatch
+# (_SYSTEMD_UNIT=sshd.service) silently matches nothing and the jail counts 0 forever.
+# Verify: fail a login on purpose from another box, then `fail2ban-client status sshd`
+# and check that "Total failed" went up.
+
+[DEFAULT]
+# your own boxes + VPN subnet, so a misconfigured agent can't ban your control box
+ignoreip = 127.0.0.1/8 ::1 10.0.0.0/8 192.0.2.10
+bantime.increment = true
+bantime.factor    = 2
+bantime.maxtime   = 1w
+
+[sshd]
+enabled      = true
+backend      = systemd
+journalmatch = _SYSTEMD_UNIT=ssh.service + _COMM=sshd
+maxretry     = 5
+findtime     = 10m
+bantime      = 1h

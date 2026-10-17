@@ -1,0 +1,17 @@
+<link rel=stylesheet href=style.css><div id=shot><div class=term style="width:680px">
+<div class=bar><span class=dot style="background:#f87171"></span><span class=dot style="background:#fbbf24"></span><span class=dot style="background:#34d399"></span>&nbsp; agent session · tool call</div>
+<pre><span class=m>● Agent wants to run:</span>
+  curl -s https://api.twilio.com/2010-04-01/Accounts/AC…/Messages.json \
+    -d To=+15555550147 -d Body="Hi Jordan, Thursday 9 AM works"
+
+<span class=r>✖ PreToolUse hook blocked this command</span>
+  <span class=r>BLOCKED by gate-guard: 'api.twilio.com' is a direct send primitive.</span>
+  Route ALL third-party messages, emails and calls through
+  'gated-send --channel email|sms|wa|call ...' so they reach the
+  owner's ✅/❌ approval card.
+
+<span class=m>● Agent reroutes:</span>
+  gated-send --channel sms --to +15555550147 --from +15555550100 \
+    --body-file /home/agents/scratch/sms-jordan.txt
+<span class=g>  queued 9b41fe03c6d2 → /var/lib/outbound-gate/9b41fe03c6d2.json
+  (awaiting owner tap)</span></pre></div></div>

@@ -1,0 +1,58 @@
+#!/usr/bin/env python3
+"""gated-send: queue an outbound message for human approval. Sends NOTHING by itself.
+
+  gated-send --channel email --to "Dana Reyes <dana@example.com>" --from "Support <support@example.com>" \
+             --subject "Your quote" --body-file /tmp/body.txt [--attach /path/quote.pdf]
+  gated-send --channel sms   --to +15555550123 --from +15555550100 --body-file /tmp/sms.txt
+  gated-send --channel call  --to +15555550123 --from +15555550100 --body-file /tmp/script.txt
+
+Prints the token and the queue file, and exits non-zero if the card didn't post.
+"""
+import argparse, os, sys
+sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
+from common import cfg, tg, new_token, save, qpath
+
+ICON = {"email": "📧", "sms": "💬", "wa": "🟢", "call": "📞"}
+
+ap = argparse.ArgumentParser()
+ap.add_argument("--channel", required=True, choices=list(ICON))
+ap.add_argument("--to", required=True)
+ap.add_argument("--from", dest="sender", required=True)
+ap.add_argument("--subject", default="")
+ap.add_argument("--body-file", required=True)
+ap.add_argument("--attach", action="append", default=[])
+ap.add_argument("--why", default="", help="one line of context for the owner")
+a = ap.parse_args()
+
+body = open(a.body_file).read().strip()
+if not body:
+    sys.exit("gated-send: empty body")  # never post a blank card
+for f in a.attach:
+    if not os.path.isfile(f):
+        sys.exit(f"gated-send: attachment missing: {f}")
+
+tok = new_token()
+item = {"token": tok, "state": "pending", "channel": a.channel, "to": a.to, "from": a.sender,
+        "subject": a.subject, "body": body, "attach": a.attach, "why": a.why}
+save(tok, item)
+
+lines = [f"{ICON[a.channel]} {a.channel.upper()} · needs your OK", "",
+         f"To: {a.to}", f"From: {a.sender}"]
+if a.subject:
+    lines.append(f"Subject: {a.subject}")
+if a.attach:
+    lines.append("Attach: " + ", ".join(f"{os.path.basename(f)} ({os.path.getsize(f)//1024} KB)" for f in a.attach))
+if a.why:
+    lines.append(f"Why: {a.why}")
+label = "Opening script" if a.channel == "call" else "Message"
+lines += ["", f"{label}:", body[:3000], "", f"token {tok}"]
+
+kb = {"inline_keyboard": [[{"text": "✅ Send", "callback_data": f"send:{tok}"},
+                           {"text": "❌ Cancel", "callback_data": f"cancel:{tok}"}]]}
+r = tg("sendMessage", chat_id=cfg()["OWNER_CHAT_ID"], text="\n".join(lines), reply_markup=kb)
+if not r.get("ok"):
+    os.remove(qpath(tok))
+    sys.exit(f"gated-send: card did NOT post ({r}); nothing queued")
+item["message_id"] = r["result"]["message_id"]
+save(tok, item)
+print(f"queued {tok} → {qpath(tok)} (awaiting owner tap)")

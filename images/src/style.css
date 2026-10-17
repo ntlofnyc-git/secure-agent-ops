@@ -1,0 +1,22 @@
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,"Noto Color Emoji",sans-serif;background:#fff;color:#0f172a}
+#shot{display:inline-block;padding:22px;background:#e7ebf0}
+.chat{width:400px;background:#dfe7d8 url() ;border-radius:16px;padding:16px 14px;background:linear-gradient(160deg,#e8efdf,#d7e6e9)}
+.hdr{display:flex;align-items:center;gap:10px;background:#fff;margin:-16px -14px 14px;padding:12px 14px;border-radius:16px 16px 0 0;border-bottom:1px solid #e2e8f0}
+.av{width:36px;height:36px;border-radius:50%;background:#3b82f6;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px}
+.hdr b{font-size:15px;display:block}.hdr small{color:#64748b;font-size:12px}
+.msg{background:#fff;border-radius:14px 14px 14px 4px;padding:11px 13px 8px;font-size:14px;line-height:1.45;box-shadow:0 1px 1px rgba(0,0,0,.08);white-space:pre-wrap}
+.msg .t{display:block;text-align:right;color:#94a3b8;font-size:11px;margin-top:4px}
+.msg b.h{font-weight:700}
+.msg .lbl{color:#64748b}
+.msg .body{display:block;background:#f1f5f9;border-left:3px solid #3b82f6;border-radius:6px;padding:8px 10px;margin:6px 0;font-size:13.5px}
+.msg code,.tok{font-family:"DejaVu Sans Mono",monospace;font-size:12px;color:#475569}
+.kb{display:grid;gap:5px;margin-top:5px}
+.kb.two{grid-template-columns:1fr 1fr}
+.btn{background:rgba(255,255,255,.75);backdrop-filter:blur(4px);border-radius:10px;text-align:center;padding:10px 6px;font-size:13.5px;font-weight:600;color:#1e3a8a;box-shadow:0 1px 1px rgba(0,0,0,.06)}
+.cap{font-size:12px;color:#64748b;margin-top:10px;text-align:center}
+.term{width:640px;background:#fbfbfd;border:1px solid #d6dbe3;border-radius:12px;overflow:hidden;font-family:"DejaVu Sans Mono",monospace;font-size:13px;line-height:1.55}
+.term .bar{background:#eef1f5;padding:8px 12px;display:flex;gap:6px;align-items:center;border-bottom:1px solid #d6dbe3;font-family:Inter;font-size:12px;color:#64748b}
+.dot{width:11px;height:11px;border-radius:50%;display:inline-block}
+.term pre{padding:14px 16px;white-space:pre-wrap;color:#1e293b}
+.g{color:#15803d}.r{color:#b91c1c}.y{color:#a16207}.b{color:#1d4ed8}.m{color:#64748b}

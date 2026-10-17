@@ -1,0 +1,14 @@
+<link rel=stylesheet href=diagram.css><div id=shot style="width:1640px">
+<h2>How an outbound action gets approved</h2><div class=sub>The agent can queue. Only a human tap makes anything leave the box.</div>
+<div class=row style="align-items:stretch">
+ <div class="box gray"><b>🤖 Agent</b>wants to email, text, call or post</div><div class=arr style="align-self:center">→</div>
+ <div class="box red" style="min-width:210px"><b>🧱 gate-guard hook</b>direct send APIs, SMTP, wrappers and the dispatcher are <b style="display:inline">blocked</b></div><div class=arr style="align-self:center">→</div>
+ <div class="box blue"><b>📥 gated-send</b>writes queue/&lt;token&gt;.json<br>posts the card</div><div class=arr style="align-self:center">→</div>
+ <div class="box amber"><b>📱 Owner's phone</b>sees recipient, sender, exact text<br>✅ Send · ❌ Cancel</div><div class=arr style="align-self:center">→</div>
+ <div class="box green"><b>🔑 approval bot</b>separate user · owner-only taps · one tap per token · logs it</div><div class=arr style="align-self:center">→</div>
+ <div class="box violet" style="min-width:120px"><b>🌐 Provider</b>email · SMS · voice</div>
+</div>
+<div class=row style="margin-top:26px;gap:40px">
+ <div class="box gray" style="flex:1"><b>📋 Big changes go through the same gate</b>Builds, infra and money get a <b style="display:inline">plan card</b>: ✅ Go, stay with me · 🌙 Go, background it · ✏️ Revise · 🔖 Save for later. A "go ahead" typed in chat is not a tap.</div>
+ <div class="box gray" style="flex:1"><b>🧾 Everything is logged</b>dispatch.log: time · token · channel · recipient · result. The agent checks the queue file exists before it says "waiting for your tap".</div>
+</div></div>

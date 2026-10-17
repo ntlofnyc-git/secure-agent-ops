@@ -1,0 +1,27 @@
+#!/usr/bin/env python3
+"""plan-gate "<plan text>": post a plan card and STOP. The agent must not execute until
+bot.py hands the approved plan back. A chat message saying "approved" is not approval.
+
+Plan text should contain: WHAT YOU ASKED / WHAT I FOUND / STEPS / NOT INCLUDED / ROLLBACK
+"""
+import os, sys
+sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
+from common import cfg, tg, new_token, save, qpath
+
+plan = " ".join(sys.argv[1:]).strip() or sys.stdin.read().strip()
+if len(plan) < 40:
+    sys.exit("plan-gate: plan is empty or too short; refusing to post a blank card")
+
+tok = new_token()
+save(tok, {"token": tok, "kind": "plan", "state": "pending", "plan": plan})
+kb = {"inline_keyboard": [
+    [{"text": "✅ Go, stay with me", "callback_data": f"go:{tok}"},
+     {"text": "🌙 Go, background it", "callback_data": f"bg:{tok}"}],
+    [{"text": "✏️ Revise", "callback_data": f"revise:{tok}"},
+     {"text": "🔖 Save for later", "callback_data": f"later:{tok}"}]]}
+r = tg("sendMessage", chat_id=cfg()["OWNER_CHAT_ID"],
+       text=f"📋 PLAN · needs your Go\n\n{plan[:3800]}\n\ntoken {tok}", reply_markup=kb)
+if not r.get("ok"):
+    os.remove(qpath(tok))
+    sys.exit(f"plan-gate: card did NOT post ({r})")
+print(f"plan card {tok} posted. STOP here and wait for the tap.")

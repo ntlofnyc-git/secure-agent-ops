@@ -1,0 +1,21 @@
+<link rel=stylesheet href=style.css><div id=shot><div class=term>
+<div class=bar><span class=dot style="background:#f87171"></span><span class=dot style="background:#fbbf24"></span><span class=dot style="background:#34d399"></span>&nbsp; deploy@web1</div>
+<pre><span class=b>$</span> sudo fail2ban-client status
+Status
+|- Number of jail:      4
+`- Jail list:   dovecot, postfix-sasl, sshd, wordpress
+
+<span class=b>$</span> sudo fail2ban-client status sshd
+Status for the jail: sshd
+|- Filter
+|  |- Currently failed: <span class=y>7</span>
+|  |- Total failed:     <span class=y>2,184</span>
+|  `- Journal matches:  _SYSTEMD_UNIT=<span class=g>ssh.service</span> + _COMM=sshd
+`- Actions
+   |- Currently banned: <span class=r>14</span>
+   |- Total banned:     <span class=r>211</span>
+   `- Banned IP list:   198.51.100.23 198.51.100.77 203.0.113.9
+                        203.0.113.45 203.0.113.118 ...
+
+<span class=m># "Total failed" climbing = the jail is counting.
+# Stuck at 0 on Ubuntu 24.04? journalmatch still says sshd.service.</span></pre></div></div>

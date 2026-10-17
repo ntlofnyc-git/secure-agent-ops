@@ -1,0 +1,13 @@
+[Unit]
+Description=Daily security sweep (alerts only on drift)
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/security-sweep.sh
+Nice=10
+IOSchedulingClass=idle
+# read-mostly: it only writes its own state dir
+ProtectHome=read-only
+ReadWritePaths=/var/lib/security-sweep
+PrivateTmp=false

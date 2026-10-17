@@ -1,0 +1,18 @@
+[Unit]
+Description=Approval bot (turns owner taps into sends)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=approvalbot
+ExecStart=/usr/bin/python3 -I /opt/approval-bot/bot.py
+Restart=always
+RestartSec=5
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/var/lib/outbound-gate
+PrivateTmp=yes
+
+[Install]
+WantedBy=multi-user.target
