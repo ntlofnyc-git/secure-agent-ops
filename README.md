@@ -103,6 +103,10 @@ More in [guides/07-agent-guardrails.md](guides/07-agent-guardrails.md). Every na
 5. **Alert on drift, not on noise.** A daily report that always says "all good" gets ignored. One that only speaks when something changed gets read.
 6. **Read-only first.** Audit before you fix. Prove the problem, then make one change at a time.
 
+## Related
+
+**Shipping a website or app?** Get the [Pre-Launch Security Checklist](https://github.com/ntlofnyc-git/pre-launch-security-checklist) on GitHub: 27 checks to run before go-live, plus a drop-in skill that makes your AI coding assistant run them and write a PASS / FAIL report.
+
 ## License
 
 Docs: CC BY 4.0. Scripts: MIT. See [LICENSE](LICENSE).
